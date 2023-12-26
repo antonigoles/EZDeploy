@@ -51,7 +51,11 @@ function CreateDeployment({ visibilityState, hide }) {
             className={
                 "absolute w-full h-full flex " +
                 " items-end justify-center " +
-                (visibilityState ? "dark-in-fast" : "dark-out-fast")
+                (visibilityState == 0
+                    ? "backdrop-brightness-100 -z-50"
+                    : visibilityState == 1
+                      ? "dark-in-fast"
+                      : "dark-out-fast")
             }
         >
             <div
@@ -59,9 +63,11 @@ function CreateDeployment({ visibilityState, hide }) {
                     "w-1/2 h-5/6 bg-white shadow-xl " +
                     " rounded-t-xl " +
                     "flex items-left p-8 flex-col gap-2 " +
-                    (visibilityState
-                        ? "slide-in-top-fast"
-                        : "slide-out-top-fast")
+                    (visibilityState == 0
+                        ? "translate-y-full"
+                        : visibilityState == 1
+                          ? "slide-in-top-fast"
+                          : "slide-out-top-fast")
                 }
             >
                 <div className="self-center font-semibold text-3xl">

@@ -19,6 +19,7 @@
 @keyframes SlideOutTop {
     0% {
         transform: translateY(0px);
+        display: flex;
     }
 
     100% {
@@ -57,9 +58,6 @@
         display: none;
     }
 
-    1% {
-    }
-
     100% {
         backdrop-filter: brightness(40%);
     }
@@ -75,6 +73,10 @@
 @keyframes DarkOut {
     0% {
         backdrop-filter: brightness(40%);
+        z-index: 1;
+    }
+
+    99% {
         z-index: 1;
     }
 

@@ -7,6 +7,7 @@ import {
     NotificationTypes,
     AppRoutes,
 } from "../../App.jsx";
+import { add_to_saved_deployments } from "../../core/AppData";
 
 function CreateDeployment({ visibilityState, hide }) {
     const { pushNotification, navigateTo } = useContext(ApplicationContext);
@@ -25,22 +26,22 @@ function CreateDeployment({ visibilityState, hide }) {
     }
 
     function createProject() {
-        if (formData)
-            for (const key in formData) {
-                console.log(key);
-                if (formData[key].length < 1) {
-                    pushNotification(
-                        "You have to fill all the fields!",
-                        NotificationTypes.Error,
-                    );
-                    return;
-                }
+        for (const key in formData) {
+            if (formData[key].length < 1) {
+                pushNotification(
+                    "You have to fill all the fields!",
+                    NotificationTypes.Error,
+                );
+                return;
             }
+        }
         pushNotification(
             <>
                 Created a new project: <b>{formData["project_name"]}</b>!
             </>,
         );
+
+        add_to_saved_deployments(formData);
 
         navigateTo(AppRoutes.ProjectView, formData);
     }

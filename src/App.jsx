@@ -44,8 +44,6 @@ function App() {
                 color: color,
             },
         ]);
-
-        console.log(notifications);
     }
 
     function navigateTo(route, data) {

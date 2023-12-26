@@ -9,18 +9,30 @@ export const AppRoutes = {
     ProjectView: 2,
 };
 
+export const NotificationTypes = {
+    Success: 0,
+    Error: 2,
+};
+
 function App() {
     const [notifications, setNotifications] = useState([]);
     const [route, setRoute] = useState();
     const [navigationData, setNavigationData] = useState({});
 
-    function pushNotification(message, type) {
+    function pushNotification(message, type = NotificationTypes.Success) {
         // filter expired notifications
         let new_notifications = [...notifications];
         new_notifications = new_notifications
             .reverse()
             .filter((_, i) => i < 10)
             .reverse();
+
+        const color =
+            type == NotificationTypes.Success
+                ? "bg-green-500"
+                : type == NotificationTypes.Error
+                  ? "bg-red-500"
+                  : "bg-black";
 
         setNotifications([
             ...new_notifications,
@@ -29,6 +41,7 @@ function App() {
                 message: message,
                 type: type,
                 expire: Number(Date.now()) + 3000,
+                color: color,
             },
         ]);
 
@@ -43,7 +56,10 @@ function App() {
     const notificationsList = notifications.map((notification, idx) => (
         <div
             key={notification.expire}
-            className="notification-animation absolute z-20 bg-green-500 p-5 text-white font-normal m-2 shadow-lg"
+            className={
+                "notification-animation absolute z-20 p-5 text-white font-normal m-2 shadow-lg " +
+                notification.color
+            }
         >
             {notification.message}
         </div>

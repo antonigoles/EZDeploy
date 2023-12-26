@@ -2,20 +2,40 @@ import { useContext, useEffect, useState } from "react";
 import Button from "../../primitives/Button";
 import TextInput from "../../primitives/TextInput";
 import GithubIcon from "../../assets/github-mark-white.svg";
-import { ApplicationContext, AppRoutes } from "../../App.jsx";
+import {
+    ApplicationContext,
+    NotificationTypes,
+    AppRoutes,
+} from "../../App.jsx";
 
 function CreateDeployment({ visibilityState, hide }) {
     const { pushNotification, navigateTo } = useContext(ApplicationContext);
-    const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState({
+        project_name: "",
+        ip_address: "",
+        root_login: "",
+        root_password: "",
+        project_dir: "/home/ezdeploy/${project_name}",
+    });
 
     function onFormUpdate(e) {
         let formDataRef = { ...formData };
         formDataRef[e.target.id] = e.target.value;
         setFormData(formDataRef);
-        console.log(formDataRef);
     }
 
     function createProject() {
+        if (formData)
+            for (const key in formData) {
+                console.log(key);
+                if (formData[key].length < 1) {
+                    pushNotification(
+                        "You have to fill all the fields!",
+                        NotificationTypes.Error,
+                    );
+                    return;
+                }
+            }
         pushNotification(
             <>
                 Created a new project: <b>{formData["project_name"]}</b>!
@@ -35,7 +55,7 @@ function CreateDeployment({ visibilityState, hide }) {
         >
             <div
                 className={
-                    "w-full h-3/4 bg-white shadow-xl " +
+                    "w-1/2 h-5/6 bg-white shadow-xl " +
                     " rounded-t-xl " +
                     "flex items-left p-8 flex-col gap-2 " +
                     (visibilityState
@@ -50,13 +70,14 @@ function CreateDeployment({ visibilityState, hide }) {
                     This process will create a project directory on the server,
                     "ezdeploy" user and nginx config
                 </div>
-                <div className="h-3/4 overflow-y-auto p-4 border-b-1 border-slate-300">
+                <div className="h-4/5 overflow-y-auto p-4 border-b-1 border-slate-300">
                     <TextInput
                         id="project_name"
                         className="mb-4"
                         placeholder={"eg. My super-duper project"}
                         label="Project name"
                         onChange={onFormUpdate}
+                        pattern=".*"
                     />
                     <TextInput
                         id="ip_address"
@@ -64,6 +85,7 @@ function CreateDeployment({ visibilityState, hide }) {
                         placeholder={"eg. 192.168.0.1"}
                         label="SSH Address"
                         onChange={onFormUpdate}
+                        pattern=".*"
                     />
                     <TextInput
                         id="root_login"
@@ -71,6 +93,7 @@ function CreateDeployment({ visibilityState, hide }) {
                         placeholder={"eg. root"}
                         label="SSH Root User Login"
                         onChange={onFormUpdate}
+                        pattern=".*"
                     />
                     <TextInput
                         id="root_password"
@@ -79,13 +102,15 @@ function CreateDeployment({ visibilityState, hide }) {
                         isPassword={true}
                         label="SSH Root User Password"
                         onChange={onFormUpdate}
+                        pattern=".*"
                     />
                     <TextInput
                         id="project_dir"
                         className="mb-4"
-                        placeholder="/home/ezdeploy/${project_name}"
+                        value={formData["project_dir"]}
                         label="Project Directory"
                         onChange={onFormUpdate}
+                        pattern=".*"
                     />
                     <div className="flex item-center justify-center">
                         <Button

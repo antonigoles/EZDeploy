@@ -119,3 +119,11 @@
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
 }
+
+.label-move-down-on-active {
+    transform: translateY(10px);
+}
+
+.label-move-down-on-active:active {
+    transform: translateY(0);
+}

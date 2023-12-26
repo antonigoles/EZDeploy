@@ -1,28 +1,29 @@
-import { useEffect, useState } from 'react'
-import Button from '../../primitives/Button'
-import TextInput from '../../primitives/TextInput'
-import GithubIcon from '../../assets/github-mark-white.svg'
-import { NotificationContext } from '../../App.jsx'
+import { useContext, useEffect, useState } from "react";
+import Button from "../../primitives/Button";
+import TextInput from "../../primitives/TextInput";
+import GithubIcon from "../../assets/github-mark-white.svg";
+import { NotificationContext } from "../../App.jsx";
 
 function CreateDeployment({ visibilityState, hide }) {
-    const [deployments, setDeployments] = useState(null)
+    const [deployments, setDeployments] = useState(null);
+    const { pushNotification } = useContext(NotificationContext);
 
     return (
         <div
             className={
-                'absolute w-full h-full flex ' +
-                ' items-end justify-center ' +
-                (visibilityState ? 'dark-in-fast' : 'dark-out-fast')
+                "absolute w-full h-full flex " +
+                " items-end justify-center " +
+                (visibilityState ? "dark-in-fast" : "dark-out-fast")
             }
         >
             <div
                 className={
-                    'w-full bg-white shadow-xl ' +
-                    ' rounded-t-xl ' +
-                    'flex items-left p-8 flex-col gap-2 ' +
+                    "w-full bg-white shadow-xl " +
+                    " rounded-t-xl " +
+                    "flex items-left p-8 flex-col gap-2 " +
                     (visibilityState
-                        ? 'slide-in-top-fast'
-                        : 'slide-out-top-fast')
+                        ? "slide-in-top-fast"
+                        : "slide-out-top-fast")
                 }
             >
                 <div className="self-center font-semibold text-3xl">
@@ -34,22 +35,22 @@ function CreateDeployment({ visibilityState, hide }) {
                 </div>
                 <TextInput
                     className="mb-4"
-                    placeholder={'eg. My super-duper project'}
+                    placeholder={"eg. My super-duper project"}
                     label="Project name"
                 />
                 <TextInput
                     className="mb-4"
-                    placeholder={'eg. 192.168.0.1'}
+                    placeholder={"eg. 192.168.0.1"}
                     label="SSH Address"
                 />
                 <TextInput
                     className="mb-4"
-                    placeholder={'eg. root'}
+                    placeholder={"eg. root"}
                     label="SSH Root User Login"
                 />
                 <TextInput
                     className="mb-4"
-                    placeholder={'eg. root123'}
+                    placeholder={"eg. root123"}
                     isPassword={true}
                     label="SSH Root User Password"
                 />
@@ -77,11 +78,18 @@ function CreateDeployment({ visibilityState, hide }) {
                         onClick={hide}
                         label="Cancel"
                     />
-                    <Button onClick={() => {}} label="Create" />
+                    <Button
+                        onClick={() => {
+                            pushNotification(
+                                "Testowe powiadomienie, zignoruj!",
+                            );
+                        }}
+                        label="Create"
+                    />
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-export default CreateDeployment
+export default CreateDeployment;

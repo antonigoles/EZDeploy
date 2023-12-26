@@ -2,11 +2,28 @@ import { useContext, useEffect, useState } from "react";
 import Button from "../../primitives/Button";
 import TextInput from "../../primitives/TextInput";
 import GithubIcon from "../../assets/github-mark-white.svg";
-import { NotificationContext } from "../../App.jsx";
+import { ApplicationContext, AppRoutes } from "../../App.jsx";
 
 function CreateDeployment({ visibilityState, hide }) {
-    const [deployments, setDeployments] = useState(null);
-    const { pushNotification } = useContext(NotificationContext);
+    const { pushNotification, navigateTo } = useContext(ApplicationContext);
+    const [formData, setFormData] = useState({});
+
+    function onFormUpdate(e) {
+        let formDataRef = { ...formData };
+        formDataRef[e.target.id] = e.target.value;
+        setFormData(formDataRef);
+        console.log(formDataRef);
+    }
+
+    function createProject() {
+        pushNotification(
+            <>
+                Created a new project: <b>{formData["project_name"]}</b>!
+            </>,
+        );
+
+        navigateTo(AppRoutes.ProjectView, formData);
+    }
 
     return (
         <div
@@ -18,7 +35,7 @@ function CreateDeployment({ visibilityState, hide }) {
         >
             <div
                 className={
-                    "w-full bg-white shadow-xl " +
+                    "w-full h-3/4 bg-white shadow-xl " +
                     " rounded-t-xl " +
                     "flex items-left p-8 flex-col gap-2 " +
                     (visibilityState
@@ -33,44 +50,56 @@ function CreateDeployment({ visibilityState, hide }) {
                     This process will create a project directory on the server,
                     "ezdeploy" user and nginx config
                 </div>
-                <TextInput
-                    className="mb-4"
-                    placeholder={"eg. My super-duper project"}
-                    label="Project name"
-                />
-                <TextInput
-                    className="mb-4"
-                    placeholder={"eg. 192.168.0.1"}
-                    label="SSH Address"
-                />
-                <TextInput
-                    className="mb-4"
-                    placeholder={"eg. root"}
-                    label="SSH Root User Login"
-                />
-                <TextInput
-                    className="mb-4"
-                    placeholder={"eg. root123"}
-                    isPassword={true}
-                    label="SSH Root User Password"
-                />
-                <TextInput
-                    className="mb-4"
-                    placeholder="/home/ezdeploy/${project_name}"
-                    label="Project Directory"
-                />
-                <div className="flex item-center justify-center">
-                    <Button
-                        className="bg-neutral-700 hover:bg-neutral-800 active:bg-neutral-900 flex-grow"
-                        label={
-                            <div className="flex items-center gap-2 p-2">
-                                <img src={GithubIcon} className="w-8" />
-                                <p className="font-medium">
-                                    Add repo from github
-                                </p>
-                            </div>
-                        }
+                <div className="h-3/4 overflow-y-auto p-4 border-b-1 border-slate-300">
+                    <TextInput
+                        id="project_name"
+                        className="mb-4"
+                        placeholder={"eg. My super-duper project"}
+                        label="Project name"
+                        onChange={onFormUpdate}
                     />
+                    <TextInput
+                        id="ip_address"
+                        className="mb-4"
+                        placeholder={"eg. 192.168.0.1"}
+                        label="SSH Address"
+                        onChange={onFormUpdate}
+                    />
+                    <TextInput
+                        id="root_login"
+                        className="mb-4"
+                        placeholder={"eg. root"}
+                        label="SSH Root User Login"
+                        onChange={onFormUpdate}
+                    />
+                    <TextInput
+                        id="root_password"
+                        className="mb-4"
+                        placeholder={"eg. root123"}
+                        isPassword={true}
+                        label="SSH Root User Password"
+                        onChange={onFormUpdate}
+                    />
+                    <TextInput
+                        id="project_dir"
+                        className="mb-4"
+                        placeholder="/home/ezdeploy/${project_name}"
+                        label="Project Directory"
+                        onChange={onFormUpdate}
+                    />
+                    <div className="flex item-center justify-center">
+                        <Button
+                            className="bg-neutral-700 hover:bg-neutral-800 active:bg-neutral-900 flex-grow"
+                            label={
+                                <div className="flex items-center gap-2 p-2">
+                                    <img src={GithubIcon} className="w-8" />
+                                    <p className="font-medium">
+                                        Add repo from github
+                                    </p>
+                                </div>
+                            }
+                        />
+                    </div>
                 </div>
                 <div className="flex justify-between mt-8">
                     <Button
@@ -78,14 +107,7 @@ function CreateDeployment({ visibilityState, hide }) {
                         onClick={hide}
                         label="Cancel"
                     />
-                    <Button
-                        onClick={() => {
-                            pushNotification(
-                                "Testowe powiadomienie, zignoruj!",
-                            );
-                        }}
-                        label="Create"
-                    />
+                    <Button onClick={createProject} label="Create" />
                 </div>
             </div>
         </div>

@@ -8,9 +8,14 @@
 
 ## 🔧 **Building & running**
 
+**Running**
+
+```sh
+npm install # on the first run
+npm run tauri dev
 ```
-TODO
-```
+
+**Building**
 
 <br>
 

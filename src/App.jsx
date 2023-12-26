@@ -1,36 +1,68 @@
 import { createContext, useState } from "react";
-import DeploymentsView from "./views/DeploymentsView";
+import DeploymentsView from "./views/DeploymentsView/DeploymentsView";
+import ProjectView from "./views/ProjectView/ProjectView";
 
-export const NotificationContext = createContext(null);
+export const ApplicationContext = createContext(null);
+
+export const AppRoutes = {
+    DeploymentsView: 0,
+    ProjectView: 2,
+};
 
 function App() {
     const [notifications, setNotifications] = useState([]);
+    const [route, setRoute] = useState();
+    const [navigationData, setNavigationData] = useState({});
 
     function pushNotification(message, type) {
         // filter expired notifications
-        let new_notifcations = notifications.filter(
-            (e) => e.expire > Date.now(),
-        );
+        let new_notifications = [...notifications];
+        new_notifications = new_notifications
+            .reverse()
+            .filter((_, i) => i < 10)
+            .reverse();
+
         setNotifications([
-            ...new_notifcations,
-            { message: message, type: type, expire: Date.now() + 3000 },
+            ...new_notifications,
+            {
+                id: Math.round(Math.random() * 1000),
+                message: message,
+                type: type,
+                expire: Number(Date.now()) + 3000,
+            },
         ]);
+
+        console.log(notifications);
     }
 
+    function navigateTo(route, data) {
+        setNavigationData(data);
+        setRoute(route);
+    }
+
+    const notificationsList = notifications.map((notification, idx) => (
+        <div
+            key={notification.expire}
+            className="notification-animation absolute z-20 bg-green-500 p-5 text-white font-normal m-2 shadow-lg"
+        >
+            {notification.message}
+        </div>
+    ));
+
+    const pageToDisplay =
+        route == AppRoutes.DeploymentsView ? (
+            <DeploymentsView navigationData={navigationData} />
+        ) : route == AppRoutes.ProjectView ? (
+            <ProjectView navigationData={navigationData} />
+        ) : (
+            <DeploymentsView navigationData={navigationData} /> // default
+        );
+
     return (
-        <NotificationContext.Provider value={{ pushNotification }}>
-            {notifications.map((notification, idx) => (
-                <div
-                    key={idx}
-                    className="notification-animation absolute z-20 bg-green-500 p-5 text-white font-normal m-2 shadow-lg"
-                >
-                    {notification.message}
-                </div>
-            ))}
-            <div className="w-full h-full">
-                <DeploymentsView />
-            </div>
-        </NotificationContext.Provider>
+        <ApplicationContext.Provider value={{ pushNotification, navigateTo }}>
+            {notificationsList}
+            <div className="w-full h-full">{pageToDisplay}</div>
+        </ApplicationContext.Provider>
     );
 }
 

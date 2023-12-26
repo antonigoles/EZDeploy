@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react'
-import CreateDeployment from '../components/CreateDeployment/CreateDeployment'
-import './DeploymentsView.css'
+import { useEffect, useState } from "react";
+import CreateDeployment from "../../components/CreateDeployment/CreateDeployment";
+import "./DeploymentsView.css";
 
 function DeploymentsView() {
-    const [deployments, setDeployments] = useState(null)
+    const [deployments, setDeployments] = useState(null);
     const [createDeploymentVisible, setCreateDeploymentVisible] =
-        useState(false)
+        useState(true);
 
     useEffect(() => {
-        setDeployments([])
-    }, [])
+        setDeployments([]);
+    }, []);
 
     return (
         <div className="flex flex-col items-center justify-center w-full h-full select-none gap-4">
@@ -22,7 +22,7 @@ function DeploymentsView() {
                     </div>
                     <a
                         onClick={() => {
-                            setCreateDeploymentVisible(true)
+                            setCreateDeploymentVisible(true);
                         }}
                         className="hover:cursor-pointer transition-shadow bg-green-500
          text-white font-normal px-10 py-2 hover:bg-green-600 rounded-lg"
@@ -36,7 +36,7 @@ function DeploymentsView() {
                 hide={() => setCreateDeploymentVisible(false)}
             />
         </div>
-    )
+    );
 }
 
-export default DeploymentsView
+export default DeploymentsView;

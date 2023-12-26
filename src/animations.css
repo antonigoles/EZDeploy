@@ -1,0 +1,92 @@
+@keyframes SlideInTop {
+    0% {
+        transform: translateY(100%);
+        display: none;
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.slide-in-top-fast {
+    animation-name: SlideInTop;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+@keyframes SlideOutTop {
+    0% {
+        transform: translateY(0px);
+    }
+
+    100% {
+        transform: translateY(100%);
+        display: none;
+    }
+}
+
+.slide-out-top-fast {
+    animation-name: SlideOutTop;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+@keyframes BlurIn {
+    0% {
+        backdrop-filter: blur(0px);
+    }
+
+    100% {
+        backdrop-filter: blur(16px);
+    }
+}
+
+.blur-in-fast {
+    animation-name: BlurIn;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+@keyframes DarkIn {
+    0% {
+        backdrop-filter: brightness(100%);
+        display: none;
+    }
+
+    1% {
+    }
+
+    100% {
+        backdrop-filter: brightness(40%);
+    }
+}
+
+.dark-in-fast {
+    animation-name: DarkIn;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+@keyframes DarkOut {
+    0% {
+        backdrop-filter: brightness(40%);
+        z-index: 1;
+    }
+
+    100% {
+        backdrop-filter: brightness(100%);
+        z-index: -1;
+    }
+}
+
+.dark-out-fast {
+    animation-name: DarkOut;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}

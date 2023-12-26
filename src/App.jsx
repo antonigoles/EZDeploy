@@ -1,53 +1,30 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import { invoke } from "@tauri-apps/api/tauri";
-import "./App.css";
+import { createContext, useState } from 'react'
+import DeploymentsView from './views/DeploymentsView'
+
+export const NotificationContext = createContext(null)
 
 function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
+    const [notifications, setNotifications] = useState([])
 
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    setGreetMsg(await invoke("greet", { name }));
-  }
+    function pushNotification(message, type) {
+        // filter expired notifications
+        let new_notifcations = notifications.filter(
+            (e) => e.expire > Date.now(),
+        )
+        setNotifications([
+            ...new_notifcations,
+            { message: message, type: type, expire: Date.now() + 3000 },
+        ])
+        console.log('PCHNOLEM NOTYFIKACJE', message, type)
+    }
 
-  return (
-    <div className="container">
-      <h1>Welcome to Tauri!</h1>
-
-      <div className="row">
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo vite" alt="Vite logo" />
-        </a>
-        <a href="https://tauri.app" target="_blank">
-          <img src="/tauri.svg" className="logo tauri" alt="Tauri logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-
-      <p>Click on the Tauri, Vite, and React logos to learn more.</p>
-
-      <form
-        className="row"
-        onSubmit={(e) => {
-          e.preventDefault();
-          greet();
-        }}
-      >
-        <input
-          id="greet-input"
-          onChange={(e) => setName(e.currentTarget.value)}
-          placeholder="Enter a name..."
-        />
-        <button type="submit">Greet</button>
-      </form>
-
-      <p>{greetMsg}</p>
-    </div>
-  );
+    return (
+        <NotificationContext.Provider value={{ pushNotification }}>
+            <div className="w-full h-full">
+                <DeploymentsView />
+            </div>
+        </NotificationContext.Provider>
+    )
 }
 
-export default App;
+export default App

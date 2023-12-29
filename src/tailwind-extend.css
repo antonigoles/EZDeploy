@@ -5,3 +5,7 @@
 .border-1 {
     border-width: 1px;
 }
+
+.standard-bg {
+    background-color: white;
+}

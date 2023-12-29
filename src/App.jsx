@@ -5,6 +5,7 @@ import ProjectView from "./views/ProjectView/ProjectView";
 export const ApplicationContext = createContext(null);
 
 export const AppRoutes = {
+    Default: -1,
     DeploymentsView: 0,
     ProjectView: 2,
 };
@@ -16,7 +17,7 @@ export const NotificationTypes = {
 
 function App() {
     const [notifications, setNotifications] = useState([]);
-    const [route, setRoute] = useState(AppRoutes.DeploymentsView);
+    const [route, setRoute] = useState(AppRoutes.Default);
     const [navigationData, setNavigationData] = useState({});
 
     function pushNotification(message, type = NotificationTypes.Success) {
@@ -77,19 +78,21 @@ function App() {
             {notificationsList}
             <div className="w-full h-full">
                 <div
-                    className={`absolute w-full h-full ${
+                    className={`shadow-xl standard-bg absolute w-full h-full ${
                         route == AppRoutes.DeploymentsView
-                            ? "screen-on-top"
-                            : "screen-move-out"
+                            ? "screen-slide-down"
+                            : route == AppRoutes.Default
+                              ? "z-0"
+                              : "screen-in-bg"
                     }`}
                 >
                     <DeploymentsView navigationData={navigationData} />
                 </div>
                 <div
-                    className={`absolute w-full h-full ${
+                    className={`shadow-xl standard-bg absolute w-full h-full ${
                         route == AppRoutes.ProjectView
-                            ? "screen-on-top"
-                            : "screen-move-out"
+                            ? "screen-slide-down"
+                            : "screen-in-bg"
                     }`}
                 >
                     <ProjectView navigationData={navigationData} />

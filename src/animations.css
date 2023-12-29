@@ -130,28 +130,23 @@
     transform: translateY(0);
 }
 
-@keyframes ScreenMoveOut {
+@keyframes ScreenSlideDown {
     0% {
-        transform: translateY(0);
-    }
-
-    99% {
-        z-index: -5;
+        transform: translateY(-100%);
     }
 
     100% {
-        transform: translateY(100%);
-        z-index: -5;
+        transform: translateY(0);
     }
 }
 
-.screen-move-out {
-    animation-name: ScreenMoveOut;
+.screen-slide-down {
+    animation-name: ScreenSlideDown;
     animation-duration: 1s;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
 }
 
-.screen-on-top {
-    z-index: 0;
+.screen-in-bg {
+    z-index: -1;
 }

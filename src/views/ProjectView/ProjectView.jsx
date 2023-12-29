@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 function ProjectView() {
     const [projectData, setProjectData] = useState(null);
 
-    return <div></div>;
+    return <div>test</div>;
 }
 
 export default ProjectView;

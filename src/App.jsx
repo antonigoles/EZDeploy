@@ -16,7 +16,7 @@ export const NotificationTypes = {
 
 function App() {
     const [notifications, setNotifications] = useState([]);
-    const [route, setRoute] = useState();
+    const [route, setRoute] = useState(AppRoutes.DeploymentsView);
     const [navigationData, setNavigationData] = useState({});
 
     function pushNotification(message, type = NotificationTypes.Success) {
@@ -75,7 +75,26 @@ function App() {
     return (
         <ApplicationContext.Provider value={{ pushNotification, navigateTo }}>
             {notificationsList}
-            <div className="w-full h-full">{pageToDisplay}</div>
+            <div className="w-full h-full">
+                <div
+                    className={`absolute w-full h-full ${
+                        route == AppRoutes.DeploymentsView
+                            ? "screen-on-top"
+                            : "screen-move-out"
+                    }`}
+                >
+                    <DeploymentsView navigationData={navigationData} />
+                </div>
+                <div
+                    className={`absolute w-full h-full ${
+                        route == AppRoutes.ProjectView
+                            ? "screen-on-top"
+                            : "screen-move-out"
+                    }`}
+                >
+                    <ProjectView navigationData={navigationData} />
+                </div>
+            </div>
         </ApplicationContext.Provider>
     );
 }

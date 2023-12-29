@@ -4,6 +4,7 @@ import DeploymenstListElement from "../../components/DeploymenstListElement/Depl
 import { get_config_data } from "../../core/AppData";
 import Button from "../../primitives/Button";
 import "./DeploymentsView.css";
+import AddGray300 from "../../assets/add-gray-300.svg";
 
 function DeploymentsView() {
     const [deployments, setDeployments] = useState([]);
@@ -31,13 +32,14 @@ function DeploymentsView() {
                             />
                         );
                     })}
-                    <Button
+                    <div
                         onClick={() => {
                             setCreateDeploymentVisibleState(1);
                         }}
-                        label="Add Deployment"
-                        className="absolute right-4 bottom-4 z-1"
-                    />
+                        className="hover:cursor-pointer w-48 h-48 border-dashed border-gray-300 border-4 text-gray-300 text-xl text-center flex items-center justify-center"
+                    >
+                        <img src={AddGray300} alt="Add" className="w-8" />
+                    </div>
                 </div>
             ) : deployments == null ? (
                 <>Loading</>
@@ -46,15 +48,12 @@ function DeploymentsView() {
                     <div className="text-2xl font-medium">
                         You don't have any deployments yet
                     </div>
-                    <a
+                    <Button
                         onClick={() => {
                             setCreateDeploymentVisibleState(1);
                         }}
-                        className="hover:cursor-pointer transition-shadow bg-green-500
-                                text-white font-normal px-10 py-2 hover:bg-green-600 rounded-lg"
-                    >
-                        Make one!
-                    </a>
+                        label="Make one!"
+                    />
                 </div>
             )}
             <CreateDeployment

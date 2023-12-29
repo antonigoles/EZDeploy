@@ -54,6 +54,15 @@ export async function get_config_data(skipSanityCheck = true) {
 export async function add_to_saved_deployments(data, skipSanityCheck = false) {
     if (!skipSanityCheck) await create_config_files_if_not_exists();
     const oldConfigData = await get_config_data();
+    data["id"] = crypto.randomUUID();
     oldConfigData["deployments"].push(data);
     await save_to_config(oldConfigData);
+    return data["id"];
+}
+
+export async function get_deployment_by_id(id, skipSanityCheck = true) {
+    if (!skipSanityCheck) await create_config_files_if_not_exists();
+    const configData = await get_config_data();
+    const result = configData["deployments"].find((e) => e["id"] == id);
+    return result;
 }

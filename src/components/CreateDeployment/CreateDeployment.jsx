@@ -25,7 +25,7 @@ function CreateDeployment({ visibilityState, hide }) {
         setFormData(formDataRef);
     }
 
-    function createProject() {
+    async function createProject() {
         for (const key in formData) {
             if (formData[key].length < 1) {
                 pushNotification(
@@ -41,9 +41,9 @@ function CreateDeployment({ visibilityState, hide }) {
             </>,
         );
 
-        add_to_saved_deployments(formData);
+        const deploymentId = await add_to_saved_deployments(formData);
 
-        navigateTo(AppRoutes.ProjectView, formData);
+        navigateTo(AppRoutes.ProjectView, { id: deploymentId });
     }
 
     return (
@@ -71,7 +71,7 @@ function CreateDeployment({ visibilityState, hide }) {
                 }
             >
                 <div className="self-center font-semibold text-3xl">
-                    Create a new project
+                    Create a new deployment
                 </div>
                 <div className="self-center font-normal opacity-45 text-sm mb-8 text-center">
                     This process will create a project directory on the server,

@@ -129,3 +129,29 @@
 .label-move-down-on-active:active {
     transform: translateY(0);
 }
+
+@keyframes ScreenMoveOut {
+    0% {
+        transform: translateY(0);
+    }
+
+    99% {
+        z-index: -5;
+    }
+
+    100% {
+        transform: translateY(100%);
+        z-index: -5;
+    }
+}
+
+.screen-move-out {
+    animation-name: ScreenMoveOut;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+.screen-on-top {
+    z-index: 0;
+}

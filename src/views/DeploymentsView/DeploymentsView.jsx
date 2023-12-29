@@ -22,7 +22,7 @@ function DeploymentsView() {
     return (
         <div className="w-full h-full flex flex-col items-center justify-center select-none">
             {deployments && deployments.length > 0 ? (
-                <div className="flex flex-col items-center w-full h-full select-none gap-4 p-2 overflow-y-auto">
+                <div className="flex flex-row items-start justify-start content-start flex-wrap w-full h-full select-none gap-4 p-2 overflow-y-auto">
                     {deployments.map((deployment, idx) => {
                         return (
                             <DeploymenstListElement

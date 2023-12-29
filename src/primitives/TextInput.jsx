@@ -21,6 +21,7 @@ function TextInput({
                 placeholder=""
                 spellCheck="false"
                 autoCorrect="false"
+                autoComplete="off"
                 className="peer bg-white decoration-transparent
         outline-none border-b-1 selection:bg-black 
         selection:text-white text-lg px-2 py-2 

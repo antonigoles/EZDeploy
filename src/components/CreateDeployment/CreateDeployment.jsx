@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import Button from "../../primitives/Button";
 import TextInput from "../../primitives/TextInput";
-import GithubIcon from "../../assets/github-mark-white.svg";
+import GithubIcon from "../../assets/github-mark-gray.svg";
 import {
     ApplicationContext,
     NotificationTypes,
@@ -60,7 +60,7 @@ function CreateDeployment({ visibilityState, hide }) {
         >
             <div
                 className={
-                    "w-1/2 h-5/6 bg-white shadow-xl " +
+                    "w-full h-5/6 bg-white shadow-xl " +
                     " rounded-t-xl " +
                     "flex items-left p-8 flex-col gap-2 " +
                     (visibilityState == 0
@@ -121,7 +121,6 @@ function CreateDeployment({ visibilityState, hide }) {
                     />
                     <div className="flex item-center justify-center">
                         <Button
-                            className="bg-neutral-700 hover:bg-neutral-800 active:bg-neutral-900 flex-grow"
                             label={
                                 <div className="flex items-center gap-2 p-2">
                                     <img src={GithubIcon} className="w-8" />
@@ -134,11 +133,7 @@ function CreateDeployment({ visibilityState, hide }) {
                     </div>
                 </div>
                 <div className="flex justify-between mt-8">
-                    <Button
-                        className="bg-slate-500 hover:bg-slate-600 active:bg-slate-700"
-                        onClick={hide}
-                        label="Cancel"
-                    />
+                    <Button onClick={hide} label="Cancel" />
                     <Button onClick={createProject} label="Create" />
                 </div>
             </div>
